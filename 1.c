@@ -45,13 +45,9 @@ int main(void)
     }
 
     show_info("parent");
-
     usleep(100000);
-
-    printf("\n--- filtered ps -x | grep lab6_task ---\n");
-    fflush(stdout);
-
-    system("ps -x | grep lab6_task");
+    
+    system("ps -x | grep child_proc");
 
     wait(NULL);
     wait(NULL);
