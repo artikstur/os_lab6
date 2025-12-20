@@ -4,6 +4,8 @@
 #include <sys/time.h>
 
 int my_num = 1;
+int my_gen = 0;
+int parent_num = 0;
 
 long long now_ms() {
     struct timeval tv;
@@ -18,7 +20,9 @@ void make_tree(int gen_left, int K) {
         pid_t pid = fork();
 
         if (pid == 0) {
-            my_num = my_num * K + (i + 1);
+            parent_num = my_num;
+            my_num = (my_num-1) * K + (i + 2);
+            my_gen++; 
             make_tree(gen_left - 1, K);
             return;
         }
@@ -30,11 +34,13 @@ int main(int argc, char *argv[]) {
     int K = atoi(argv[2]);
 
     make_tree(G, K);
-
-    while (1) {
-        int t = my_num * 200;
-        printf("num=%d pid=%d ppid=%d time=%lld t=%d\n",
-               my_num, getpid(), getppid(), now_ms(), t);
-        usleep(t * 1000);
+    int t = my_num * 200;
+    for (int i = 0; i <  my_gen; i++) {
+        printf("- ");
     }
+
+    printf("num=%d parent=%d pid=%d ppid=%d time=%lld t=%d\n",
+          my_num, parent_num, getpid(), getppid(), now_ms(), t);
+    usleep(t * 1000);
+    return 0;
 }
