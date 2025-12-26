@@ -35,12 +35,13 @@ int main(int argc, char *argv[]) {
 
     make_tree(G, K);
     int t = my_num * 200;
-    for (int i = 0; i <  my_gen; i++) {
-        printf("- ");
+     for (int repeat = 0; repeat < 2; repeat++) {
+        for (int i = 0; i < my_gen; i++) {
+            printf("  ");
+        }
+        printf("num=%d parent=%d pid=%d ppid=%d time=%lld t=%d (iteration %d)\n",
+               my_num, parent_num, getpid(), getppid(), now_ms(), t, repeat + 1);
+        usleep(t * 1000);
     }
-
-    printf("num=%d parent=%d pid=%d ppid=%d time=%lld t=%d\n",
-          my_num, parent_num, getpid(), getppid(), now_ms(), t);
-    usleep(t * 1000);
     return 0;
 }
